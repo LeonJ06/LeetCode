@@ -1,0 +1,33 @@
+public class Solution {
+    public int maximalSquare(char[][] matrix) {
+        
+        int max = 0;
+        if(matrix.length==0)//&matrix[0].length==0)
+            return max;
+ 
+        int[][] matrixs =new int[matrix.length][matrix[0].length];
+        
+        for(int i =0;i<matrix.length;i++){
+            for(int j =0;j<matrix[0].length;j++){
+                matrixs[i][j] = Character.getNumericValue(matrix[i][j]);
+            }
+        }
+        for(int i =0;i<matrix.length;i++){
+            for(int j =0;j<matrix[0].length;j++){
+                if(i==0||j==0){                             //top and left boundy
+                    max = Math.max(matrixs[i][j],max);
+                }else{
+                    if(matrixs[i][j]==1){                    //rest part
+                        if(matrixs[i][j-1]==matrixs[i-1][j] && matrixs[i-1][j]==matrixs[i-1][j-1])
+                            matrixs[i][j]=matrixs[i-1][j-1]+1;
+                        else if(matrixs[i-1][j-1]!=0 && matrixs[i-1][j]!=0 && matrixs[i][j-1]!=0){
+                            matrixs[i][j]= Math.min(Math.min( matrixs[i][j-1],matrixs[i-1][j] ) ,matrixs[i-1][j-1] ) + 1;
+                        }
+                    max = Math.max(matrixs[i][j],max);
+                    }
+                }
+            }
+        }
+        return max*max;    
+    }
+}

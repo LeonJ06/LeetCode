@@ -1,0 +1,26 @@
+
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        
+        int[] dp = new int[amount+1];   //dp[x] means the number of coins for x dollar 
+        dp[0]= 0;
+        
+        for(int i=1;i<=amount;i++){     //bottom up, build from 1
+            dp[i] = Integer.MAX_VALUE;  //initial the value to max
+            
+            for(int coin: coins){       //check each coin from small to large
+                if( i-coin >= 0 && dp[i-coin] != Integer.MAX_VALUE){    //1. value of the coin needs to be smaller than the amount i
+                                                                        //2. if dp[i-coin] == Integer.MAX_VALUE, that means we cannot
+                                                                        //   find the combination for dp[i-coin]
+                    dp[i] = Math.min( dp[i], dp[i-coin] + 1);           //update the dp table with the min value
+                }
+            }
+        }
+        
+        //return the last element of dp[]
+        if(dp[amount]==Integer.MAX_VALUE)       //cannot find the combination for amount                       
+            return -1;
+        return dp[amount];
+    }
+}

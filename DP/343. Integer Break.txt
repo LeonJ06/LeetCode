@@ -1,0 +1,16 @@
+class Solution {
+    public int integerBreak(int n) {
+        int[] dp = new int[n+1];
+        dp[1] = 1;
+        for(int i=2;i<=n;i++){
+            for(int j =1;j<=i/2;j++){       //the largest factor is i/2
+                // check from 1*(n-1), 2*(n-2), 3*(n-3)......
+                // we need to check : Math.max( j, dp[j] ) because j might be break into prieces which has greater product
+                int product = ( Math.max(j, dp[j]) ) * (Math.max((i-j), dp[i - j]) );
+                dp[i] = Math.max(dp[i],product);//store the product into array
+            }
+        }
+        return dp[n];
+    }
+}
+
