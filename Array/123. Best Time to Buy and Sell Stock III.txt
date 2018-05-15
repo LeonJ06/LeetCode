@@ -1,0 +1,43 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        if(prices.length < 2)
+            return 0;
+        int n = prices.length;
+        
+        //calculate the profit of the left side of the sub array
+        //left[i] means the max profit from 0 ~ i
+        int[] left = new int[n];
+        int low = prices[0];    //the lowest price
+        int leftMax = 0;        //the local max profit at left side
+        
+        for(int i = 0 ; i < n; i++){
+            if(prices[i] < low){    //update the low price
+                low = prices[i];
+            }
+            int profit = prices[i] - low; //calculate profit
+            leftMax = Math.max(leftMax, profit);    //update the local max
+            left[i] = leftMax;
+        }
+
+        //calculate the profit of the right side of the sub array
+        //right[i] means the max profit from i ~ n-1
+        int[] right = new int[n];
+        int high = prices[n-1];
+        int rightMax = 0 ;      //the local max profit at right side
+        
+        for(int i = n-1; i >= 0; i--){
+            if(prices[i] > high){   //update the highest price
+                high = prices[i];
+            }
+            int profit = high - prices[i];
+            rightMax = Math.max(rightMax, profit);
+            right[i] = rightMax;
+        }
+        
+        int max = 0;
+        for(int i = 0 ; i < n; i++){
+            max = Math.max(max, left[i] + right[i]);
+        }
+        return max;
+    }
+}

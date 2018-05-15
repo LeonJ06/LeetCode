@@ -1,0 +1,69 @@
+class Solution {
+    
+    public int numIslands(char[][] grid) {
+        int res = 0;
+        for(int i = 0 ; i< grid.length; i++){
+            for(int j = 0; j < grid[0].length; j++){
+                if(grid[i][j] == '1'){
+                    res++;
+                    dfs(grid, j, i);
+                }
+                
+            }
+        }
+        return res;
+    }
+    
+    private void dfs(char[][] grid, int x, int y){
+        
+        if(x < 0 || x > grid[0].length-1 || y < 0 || y > grid.length-1 || grid[y][x] == '0'){
+            return;
+        }
+        
+        grid[y][x] = '0';
+        dfs(grid, x+1, y);
+        dfs(grid, x-1, y);
+        dfs(grid, x, y+1);
+        dfs(grid, x, y-1);
+        
+        return;
+    }
+}
+
+
+
+
+
+// class Solution {
+//     public int numIslands(char[][] grid) {
+//         if(grid.length == 0 || grid[0].length == 0){
+//             return 0;
+//         }
+        
+//         int res = 0;
+        
+//         for(int i=0; i<grid.length; i++){
+//             for(int j = 0; j< grid[0].length; j++){
+//                 if(grid[i][j]=='1'){
+//                     res++;
+//                     dfs(grid, j, i, grid.length, grid[0].length);
+//                 }
+//             }
+//         }
+//         return res;
+//     }
+    
+//     private void dfs(char[][] grid, int x, int y, int heigh, int width){
+//         if(x < 0 || x>= width || y < 0 || y >= heigh){
+//             return;
+//         }
+//         if(grid[y][x] == '1'){
+//             grid[y][x] = '0';
+//             dfs(grid, x+1, y, heigh, width);
+//             dfs(grid, x-1, y, heigh, width);
+//             dfs(grid, x, y+1, heigh, width);
+//             dfs(grid, x, y-1, heigh, width);          
+//         }
+
+//     }
+// }
