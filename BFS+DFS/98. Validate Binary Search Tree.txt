@@ -1,0 +1,14 @@
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        return Valid(root,Long.MIN_VALUE,Long.MAX_VALUE);
+    }
+    
+    private boolean Valid(TreeNode node,long min, long max){
+        if(node==null)              //empty case, which is valid
+            return true;
+        if(node.val>=max||node.val<=min)   //check left and right
+            return false;
+        return Valid(node.left,min,node.val)&&Valid(node.right,node.val,max);     
+        //node would be valid if right child and left child are valid
+    }
+}

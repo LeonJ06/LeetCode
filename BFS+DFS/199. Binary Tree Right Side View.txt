@@ -1,0 +1,133 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+
+
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        helper(root,res,0);
+        return res;
+    }
+    
+    private void helper(TreeNode node, List<Integer> res, int level){
+        //leaves case
+        if(node == null){
+            return;
+        }
+        
+        //pre order treversal( root -> right -> left)
+        if(level == res.size())
+            res.add(node.val);
+        if(node.right != null)
+            helper(node.right, res, level + 1);
+        if(node.left != null)
+            helper(node.left, res, level + 1);
+        
+    }
+}
+// // BFS version
+// class Solution {
+//     public List<Integer> rightSideView(TreeNode root) {
+//         List<Integer> res = new ArrayList<>();
+//         //edge case
+//         if(root == null)
+//             return res;
+        
+//         Queue<TreeNode> q = new LinkedList<>();
+//         q.add(root);
+//         while(!q.isEmpty()){
+//             int size = q.size();
+//             for(int i = 0; i < size; i++){
+//                 TreeNode temp = q.poll();
+//                 if(temp.left != null){
+//                     q.add(temp.left);
+//                 }
+//                 if(temp.right != null){
+//                     q.add(temp.right);
+//                 }
+//                 if(i == size-1){
+//                     res.add(temp.val);
+//                 }
+//             }
+//         }
+//         return res;
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> result = new ArrayList<Integer>();        //save the result
+        Stack<TreeNode> list_node = new Stack<TreeNode>();      //save the fork so we can come back
+        Stack<Integer> list_level = new Stack<Integer>();       //save the level of the node
+        int maxLv = 0;                                          //max level
+        int level =0;                                           //current level
+        TreeNode cur = root;
+        
+        ///////     first treversal     
+        while(cur!=null){
+            level++;                        // level increase
+            result.add(cur.val);
+            
+            if(cur.left!=null){             
+                list_node.push(cur.left);   //save node's left child,so we can come back later
+                list_level.push(level+1);   //save left child node's level
+            }
+            cur = cur.right;                //move cur
+        }
+        maxLv = Math.max(maxLv,level);
+        
+        ///////     if there is any fork, triverse the whole tree
+        while(!list_node.isEmpty()){
+            cur = list_node.pop();
+            level = list_level.pop();
+            while(cur!=null){
+                if(level > maxLv){
+                    result.add(cur.val);   
+                    maxLv = level;
+                }
+
+                if(cur.left!=null){             
+                    list_node.push(cur.left);   //save node's left child,so we can come back later
+                    list_level.push(level+1);   //save left child node's level
+                }
+            
+                cur = cur.right;                //move cur
+                level++;                        // level increase
+                }
+        }
+            
+        return result;
+    }
+}
